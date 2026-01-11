@@ -1,0 +1,12 @@
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+const express_1 = require("express");
+const MoodController_1 = require("../controller/MoodController");
+const router = (0, express_1.Router)();
+const controller = new MoodController_1.MoodController();
+router.post("/moods", controller.create);
+router.get("/moods", controller.getAll);
+router.get("/moods/:id/recommend", controller.recommend);
+router.put("/moods/:id", controller.update);
+router.delete("/moods/:id", controller.delete);
+exports.default = router;
