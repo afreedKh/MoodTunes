@@ -13,6 +13,7 @@ export class CreateMood {
     if (!name || name.trim() === "") {
       throw new Error("Mood name is required");
     }
+    
     if (!songs || songs.length === 0) {
       throw new Error("At least one song is required");
     }

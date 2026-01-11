@@ -8,6 +8,7 @@ export class IMongoMoodRepository implements IMoodRepository {
       moodDoc._id,
       moodDoc.name,
       moodDoc.songs.map((song: any) => ({
+        id: song._id.toString(),
         title: song.title,
         artist: song.artist,
       }))
@@ -25,7 +26,7 @@ export class IMongoMoodRepository implements IMoodRepository {
   }
 
   async findAll(): Promise<Mood[]> {
-    const moods =  await MoodModel.find();
+    const moods = await MoodModel.find();
     return moods.map(this.toDomain);
   }
 
@@ -34,15 +35,18 @@ export class IMongoMoodRepository implements IMoodRepository {
     return mood ? this.toDomain(mood) : null;
   }
 
-  async update(id: string, data: { name?: string; songs?: ISong[] }): Promise<Mood> {
-     const updatedMood = await MoodModel.findByIdAndUpdate(
-    id,
-    {
-      ...(data.name && { name: data.name }),
-      ...(data.songs && { songs: data.songs })
-    },
-    { new: true }
-  );
+  async update(
+    id: string,
+    data: { name?: string; songs?: ISong[] }
+  ): Promise<Mood> {
+    const updatedMood = await MoodModel.findByIdAndUpdate(
+      id,
+      {
+        ...(data.name && { name: data.name }),
+        ...(data.songs && { songs: data.songs }),
+      },
+      { new: true }
+    );
     if (!updatedMood) {
       throw new Error(`Mood with id ${id} not found`);
     }
@@ -51,5 +55,53 @@ export class IMongoMoodRepository implements IMoodRepository {
 
   async delete(id: string): Promise<void> {
     await MoodModel.findByIdAndDelete(id);
+  }
+
+  async addSong(
+    moodId: string,
+    song: { title: string; artist: string }
+  ): Promise<Mood | null> {
+    const updatedMood = await MoodModel.findByIdAndUpdate(
+      moodId,
+      { $push: { songs: song } },
+      { new: true }
+    );
+
+    if (!updatedMood) return null;
+
+    return this.toDomain(updatedMood);
+  }
+
+  async removeSong(moodId: string, songId: string): Promise<Mood | null> {
+    const updatedMood = await MoodModel.findByIdAndUpdate(
+      moodId,
+      { $pull: { songs: { _id: songId } } },
+      { new: true }
+    );
+
+    if (!updatedMood) return null;
+
+    return this.toDomain(updatedMood);
+  }
+
+  async updateSong(
+    moodId: string,
+    songId: string,
+    data: { title: string; artist: string }
+  ): Promise<Mood | null> {
+    const updatedMood = await MoodModel.findOneAndUpdate(
+      { _id: moodId, "songs._id": songId },
+      {
+        $set: {
+          "songs.$.title": data.title,
+          "songs.$.artist": data.artist,
+        },
+      },
+      { new: true }
+    );
+
+    if (!updatedMood) return null;
+
+    return this.toDomain(updatedMood);
   }
 }

@@ -4,8 +4,10 @@ import "dotenv/config";
 import { config } from "./infrastructure/config/app.config";
 import database from "./infrastructure/database/mongoose/db.config";
 import moodRoutes from "./presentation/routes/mood.route";
+import cors from "cors";
 
 const app = express();
+app.use(cors({origin:config.FRONTEND_URL, credentials:true}));
 app.use(express.json());
 app.use("/api", moodRoutes);
 
