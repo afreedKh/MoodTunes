@@ -5,7 +5,6 @@
     "emitDecoratorMetadata": true,
     "module": "commonjs",
     "rootDir": "./src",
-    "types": ["node"],
     "outDir": "./dist",
     "esModuleInterop": true,
     "forceConsistentCasingInFileNames": true,
