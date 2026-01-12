@@ -4,6 +4,7 @@
   "main": "index.js",
   "scripts": {
     "start": "node ./dist/server.js",
+    "build": "tsc",
     "start2": "nodemon ./dist/server.js",
     "watch": "tsc -w",
     "dev": "npm-run-all --parallel watch start2"
