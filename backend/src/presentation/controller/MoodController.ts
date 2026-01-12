@@ -31,7 +31,7 @@ interface SongBody {
 
 
 export class MoodController {
-  async create(req: Request<{}, {}, CreateMoodBody>, res: Response) {
+  async create(req: Request, res: Response) {
     try {
       const usecase = container.resolve(CreateMood);
       const result = await usecase.execute(req.body.name, req.body.songs);
