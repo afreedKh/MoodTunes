@@ -40,11 +40,7 @@
 
     "resolveJsonModule": true,
 
-    "lib": ["ES2020"],
-
-    "typeRoots": [
-       "./node_modules/@types"
-    ]
+    "lib": ["ES2020"]
   },
   "include": ["src"]
 }
