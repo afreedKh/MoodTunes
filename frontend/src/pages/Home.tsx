@@ -7,6 +7,7 @@ import {
 } from "../features/moods/moodApi";
 import { useState } from "react";
 import { Plus, Music, Edit2, Trash2, ArrowRight } from "lucide-react";
+import { Link } from "react-router-dom";
 
 const Home = () => {
   const { data: moods, isLoading } = useGetMoodsQuery();
@@ -151,13 +152,13 @@ const Home = () => {
                     </div>
 
                     <div className="flex gap-2 pt-4 border-t border-slate-200">
-                      <a
-                        href={`/recommend/${mood.id}`}
+                      <Link
+                        to={`/recommend/${mood.id}`}
                         className="flex-1 flex items-center justify-center gap-2 px-3 py-2 bg-indigo-600 hover:bg-indigo-700 text-white text-sm font-medium rounded-lg transition-colors"
                       >
                         View
                         <ArrowRight className="h-3.5 w-3.5" />
-                      </a>
+                      </Link>
 
                       <button
                         onClick={() => handleEditClick(mood.id, mood.name)}
