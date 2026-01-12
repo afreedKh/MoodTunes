@@ -50,9 +50,11 @@ export class MoodController {
   async recommend(req: Request<{ id: string }>, res: Response) {
     try {
       const usecase = container.resolve(GetMoodRecommendations);
-      res.json(await usecase.execute(req.params.id));
+      const result = await usecase.execute(req.params.id);
+      res.json(result);
     } catch (e: unknown) {
       const error = e as Error;
+      console.error("Recommend error:", error.message, "for id:", req.params.id);
       res.status(404).json({ message: error.message });
     }
   }
