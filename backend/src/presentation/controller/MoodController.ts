@@ -49,13 +49,19 @@ export class MoodController {
 
   async recommend(req: Request<{ id: string }>, res: Response) {
     try {
+      console.log("Recommend controller called with id:", req.params.id);
       const usecase = container.resolve(GetMoodRecommendations);
       const result = await usecase.execute(req.params.id);
+      console.log("Recommend result:", result?.length || 0, "songs");
       res.json(result);
     } catch (e: unknown) {
       const error = e as Error;
       console.error("Recommend error:", error.message, "for id:", req.params.id);
-      res.status(404).json({ message: error.message });
+      res.status(404).json({ 
+        message: error.message,
+        error: "Mood not found",
+        id: req.params.id 
+      });
     }
   }
 

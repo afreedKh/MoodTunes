@@ -9,7 +9,25 @@ import cors from "cors";
 const app = express();
 app.use(cors({ origin: config.FRONTEND_URL, credentials: true }));
 app.use(express.json());
+
+// Request logging middleware
+app.use((req, res, next) => {
+  console.log(`${req.method} ${req.path}`, req.params);
+  next();
+});
+
+// Health check endpoint
+app.get("/health", (req, res) => {
+  res.json({ status: "ok", timestamp: new Date().toISOString() });
+});
+
 app.use("/api", moodRoutes);
+
+// 404 handler for unmatched routes (must be last)
+app.use((req, res) => {
+  console.log(`404 - Route not found: ${req.method} ${req.path}`);
+  res.status(404).json({ message: "Route not found", path: req.path, method: req.method });
+});
 
 const startServer = async () => {
   try {
