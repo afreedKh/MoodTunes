@@ -5,9 +5,13 @@ const router = Router();
 const controller = new MoodController();
 
 // More specific routes first - these must come before /moods/:id
-router.get("/moods/:id/recommend", async (req, res) => {
-  console.log("Recommend route hit:", req.params.id);
-  await controller.recommend(req, res);
+router.get("/moods/:id/recommend", async (req, res, next) => {
+  try {
+    console.log("Recommend route hit:", req.params.id, "Full path:", req.path);
+    await controller.recommend(req, res);
+  } catch (error) {
+    next(error);
+  }
 });
 
 router.post("/moods/:id/songs", async (req, res) => {

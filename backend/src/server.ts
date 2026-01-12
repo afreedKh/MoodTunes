@@ -26,7 +26,14 @@ app.use("/api", moodRoutes);
 // 404 handler for unmatched routes (must be last)
 app.use((req, res) => {
   console.log(`404 - Route not found: ${req.method} ${req.path}`);
-  res.status(404).json({ message: "Route not found", path: req.path, method: req.method });
+  console.log(`Query params:`, req.query);
+  console.log(`Route params:`, req.params);
+  res.status(404).json({ 
+    message: "Route not found", 
+    path: req.path, 
+    method: req.method,
+    originalUrl: req.originalUrl
+  });
 });
 
 const startServer = async () => {
