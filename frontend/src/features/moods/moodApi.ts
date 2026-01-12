@@ -1,10 +1,11 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 import { type Mood } from "./types";
 
+
 export const moodApi = createApi({
   reducerPath: "moodApi",
   baseQuery: fetchBaseQuery({
-    baseUrl: "https://moodtunes-n960.onrender.com/api",
+    baseUrl: `${import.meta.env.VITE_API_URL}/api`,
   }),
   tagTypes: ["Mood"],
   endpoints: (builder) => ({
