@@ -4,7 +4,7 @@ import { type Mood } from "./types";
 export const moodApi = createApi({
   reducerPath: "moodApi",
   baseQuery: fetchBaseQuery({
-    baseUrl: "http://localhost:8000/api",
+    baseUrl: "https://moodtunes-n960.onrender.com/api",
   }),
   tagTypes: ["Mood"],
   endpoints: (builder) => ({
