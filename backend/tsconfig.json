@@ -9,7 +9,8 @@
     "strict": true,
     "skipLibCheck": true,
     "resolveJsonModule": true,
-
+    "experimentalDecorators": true,
+    "emitDecoratorMetadata": true,
     "lib": ["ES2020"],
 
     "typeRoots": [
