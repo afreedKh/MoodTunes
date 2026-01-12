@@ -51,7 +51,10 @@ export const moodApi = createApi({
     }),
 
     recommendSongs: builder.query<any[], string>({
-      query: (id) => `/moods/${id}/recommend`,
+      query: (id) => ({
+        url: `/moods/${id}/recommend`,
+        method: "GET",
+      }),
       providesTags: (_result, _error, id) => [{ type: "Mood", id }],
     }),
 
