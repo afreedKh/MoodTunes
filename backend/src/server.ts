@@ -30,7 +30,7 @@ const startServer = async () => {
     const errorMessage =
       error instanceof Error ? error.message : "Unknown error";
     console.error("Server failed to start! ❌", errorMessage);
-    process.exit(1); // Exit with error code
+    process.exit(1); 
   }
 };
 
