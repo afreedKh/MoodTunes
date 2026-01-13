@@ -6,14 +6,13 @@ const database = async () => {
       throw new Error("MONGO_URI environment variable is not set");
     }
 
-    await mongoose.connect(process.env.MONGO_URI, {
-      serverSelectionTimeoutMS: 5000, // Timeout after 5s instead of 30s
-      socketTimeoutMS: 45000, // Close sockets after 45s of inactivity
-    });
+    mongoose.connection.on("connected",()=>{
+      console.log("Database Connected Successfully ✅");
+    })
+
+    await mongoose.connect(process.env.MONGO_URI)
     
-    console.log("Database Connected Successfully ✅");
     
-    // Handle connection events
     mongoose.connection.on("error", (err) => {
       console.error("MongoDB connection error:", err);
     });
@@ -25,7 +24,7 @@ const database = async () => {
   } catch (error: unknown) {
     const errorMessage = error instanceof Error ? error.message : "Unknown error";
     console.error("Database Connection Failed! ❌", errorMessage);
-    throw error; // Re-throw to prevent server from starting without DB
+    throw error; 
   }
 };
 

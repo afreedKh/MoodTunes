@@ -4,14 +4,8 @@ import { MoodController } from "../controller/MoodController";
 const router = Router();
 const controller = new MoodController();
 
-// More specific routes first - these must come before /moods/:id
 router.get("/moods/:id/recommend", async (req, res, next) => {
-  try {
-    console.log("Recommend route hit:", req.params.id, "Full path:", req.path);
     await controller.recommend(req, res);
-  } catch (error) {
-    next(error);
-  }
 });
 
 router.post("/moods/:id/songs", async (req, res) => {
@@ -26,7 +20,6 @@ router.delete("/moods/:moodId/songs/:songId", async (req, res) => {
   await controller.removeSong(req, res);
 });
 
-// Less specific routes after
 router.post("/moods", async (req, res) => {
   await controller.create(req, res);
 });
